@@ -21,9 +21,7 @@ class Engine {
    }
 
    setupEvents() {
-      this.movieChecklist.addEventListener('change', (event) => {
-         this.switchList(event)
-      });
+      this.movieChecklist.addEventListener('change', this.switchList.bind(this));
    }
 
    setupDropdown() {
@@ -48,7 +46,14 @@ class Engine {
          movies = [];
       }
 
+      const watchedCount = movies.filter(x => watchedList[x] === true).length;
+
+      let prelude = document.createElement('p');
+      prelude.innerText = `You've seen ${watchedCount} out of ${movies.length} films on this list. Refresh to update the count.`;
+
       let container = this.container;
+
+      container.appendChild(prelude);
 
       let i = 0;
       for (const movie of movies) {
